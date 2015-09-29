@@ -4,7 +4,9 @@
 
 ;;vector of all users
 (defn get-all []
-  (select  db/users))
+  (select db/users
+          (with db/address)
+          (fields :first :last :address.address :address.zip)))
 
 ;;will get sql query for the clojure code
 (defn get-sql-outout [id]
@@ -15,6 +17,7 @@
 ;;get user record
 (defn get [id]
   (select  db/users
+           (with db/address)
            (where (= :id id))))
 
 (defn insert-user [user]
