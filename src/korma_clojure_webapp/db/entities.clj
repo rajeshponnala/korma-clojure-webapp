@@ -11,6 +11,8 @@
                         :port "5432"
                         }))
 
+(declare users address email)
+
 (defentity users
   (pk :id)
   (table :users)
@@ -21,4 +23,13 @@
   ;; captilizes first field on select
   (transform (fn [{first :first :as v}]
                (if first
-                 (assoc v :first (str/capitalize first)) v))))
+                 (assoc v :first (str/capitalize first)) v)))
+  (has-one address)
+  ;; this is ignoring the with clause
+  (has-many email))
+
+(defentity address
+  (belongs-to users))
+
+(defentity email
+  (belongs-to users))
