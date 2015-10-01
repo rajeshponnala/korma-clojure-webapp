@@ -11,7 +11,7 @@
                         :port "5432"
                         }))
 
-(declare users address email)
+(declare users address email account posts)
 
 (defentity users
   (pk :id)
@@ -26,10 +26,17 @@
                  (assoc v :first (str/capitalize first)) v)))
   (has-one address)
   ;; this is ignoring the with clause
-  (has-many email))
+  (has-many email)
+  (belongs-to account))
 
 (defentity address
   (belongs-to users))
 
 (defentity email
   (belongs-to users))
+
+(defentity account
+  (has-one users))
+
+(defentity posts
+  (many-to-many users :users_posts))
